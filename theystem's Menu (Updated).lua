@@ -1,5 +1,4 @@
--- DO NOT STEAL THIS CODE WITHOUT GIVEN PERMISSION BY THE CREATOR OF THIS CODE
-
+-- DO NOT STEAL THIS CODE UNLESS GIVEN PERMISSION BY THE CREATOR
 local success, Rayfield = pcall(function()
     return loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 end)
@@ -29,7 +28,6 @@ local Tabs = {
     Visual = Window:CreateTab("Visual Mods"),
     ESP = Window:CreateTab("ESP Mods"),
     Lights = Window:CreateTab("Lighting Mods"),
-    Fly = Window:CreateTab("Fly Mods")
 }
 
 for _, tab in pairs(Tabs) do
@@ -240,44 +238,6 @@ Tabs.Lights:CreateButton({
     Callback = function()
         local Lighting = game:GetService("Lighting")
         Lighting.Ambient = Color3.fromRGB(200, 200, 255)
-    end
-})
-
-Tabs.Fly:CreateSection("Fly Mods")
-
-Tabs.Fly:CreateButton({
-    Name = "Fly",
-    Callback = function()
-        local Player = game.Players.LocalPlayer
-        local Character = Player.Character or Player.CharacterAdded:Wait()
-        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
-        local BodyGyro = Instance.new("BodyGyro")
-        local BodyVelocity = Instance.new("BodyVelocity")
-        
-        BodyGyro.MaxTorque = Vector3.new(400000, 400000, 400000)
-        BodyGyro.CFrame = Character.HumanoidRootPart.CFrame
-        BodyGyro.Parent = Character.HumanoidRootPart
-
-        BodyVelocity.MaxForce = Vector3.new(400000, 400000, 400000)
-        BodyVelocity.Velocity = Vector3.new(0, 50, 0)
-        BodyVelocity.Parent = Character.HumanoidRootPart
-
-        print("Fly mode activated.")
-    end
-})
-
-Tabs.Fly:CreateButton({
-    Name = "Stop Flying",
-    Callback = function()
-        local Player = game.Players.LocalPlayer
-        local Character = Player.Character or Player.CharacterAdded:Wait()
-        local BodyGyro = Character.HumanoidRootPart:FindFirstChildOfClass("BodyGyro")
-        local BodyVelocity = Character.HumanoidRootPart:FindFirstChildOfClass("BodyVelocity")
-
-        if BodyGyro then BodyGyro:Destroy() end
-        if BodyVelocity then BodyVelocity:Destroy() end
-
-        print("Fly mode deactivated.")
     end
 })
 
