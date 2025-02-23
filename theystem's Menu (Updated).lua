@@ -6,7 +6,7 @@ end)
 if not success then
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Error!",
-        Text = "The script couldn't be executed successfully. Check your executor.",
+        Text = "The script couldn't be executed successfully. Check your executor to see if it is able to run Rayfield.",
         Duration = 5
     })
     return
