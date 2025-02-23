@@ -28,6 +28,9 @@ local Tabs = {
     Visual = Window:CreateTab("Visual Mods"),
     ESP = Window:CreateTab("ESP Mods"),
     Lights = Window:CreateTab("Lighting Mods"),
+    Movement = Window:CreateTab("Movement Mods"),
+    Combat = Window:CreateTab("Combat Mods"),
+    Utility = Window:CreateTab("Utility Mods")
 }
 
 for _, tab in pairs(Tabs) do
@@ -120,7 +123,6 @@ Tabs.Vehicle:CreateButton({
 Tabs.Vehicle:CreateButton({ Name = "Fly Vehicle", Callback = function() print("Vehicle Flight activated.") end })
 
 Tabs.Visual:CreateButton({ Name = "Wallhack", Callback = function() print("Wallhack activated.") end })
-Tabs.Visual:CreateButton({ Name = "Night Vision", Callback = function() print("Night Vision activated.") end })
 
 Tabs.ESP:CreateSection("ESP Mods")
 
@@ -176,36 +178,6 @@ Tabs.ESP:CreateButton({
     end
 })
 
-Tabs.ESP:CreateButton({
-    Name = "Distance ESP",
-    Callback = function()
-        local Player = game.Players.LocalPlayer
-        local Camera = workspace.CurrentCamera
-
-        for _, Target in ipairs(game.Players:GetPlayers()) do
-            if Target ~= Player and Target.Character then
-                local Character = Target.Character
-                local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
-                if HumanoidRootPart then
-                    local Distance = (Player.Character.HumanoidRootPart.Position - HumanoidRootPart.Position).Magnitude
-                    local BillboardGui = Instance.new("BillboardGui")
-                    BillboardGui.Adornee = HumanoidRootPart
-                    BillboardGui.Size = UDim2.new(0, 100, 0, 50)
-                    BillboardGui.StudsOffset = Vector3.new(0, 3, 0)
-                    BillboardGui.Parent = Camera
-
-                    local DistanceLabel = Instance.new("TextLabel")
-                    DistanceLabel.Text = math.floor(Distance) .. " studs"
-                    DistanceLabel.Size = UDim2.new(1, 0, 1, 0)
-                    DistanceLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-                    DistanceLabel.BackgroundTransparency = 1
-                    DistanceLabel.Parent = BillboardGui
-                end
-            end
-        end
-    end
-})
-
 Tabs.Lights:CreateSection("Lighting Mods")
 
 Tabs.Lights:CreateButton({
@@ -214,14 +186,6 @@ Tabs.Lights:CreateButton({
         local Lighting = game:GetService("Lighting")
         Lighting.Brightness = 2
         Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
-    end
-})
-
-Tabs.Lights:CreateButton({
-    Name = "Night Vision",
-    Callback = function()
-        local Lighting = game:GetService("Lighting")
-        Lighting.NightVisionEnabled = true
     end
 })
 
@@ -238,6 +202,63 @@ Tabs.Lights:CreateButton({
     Callback = function()
         local Lighting = game:GetService("Lighting")
         Lighting.Ambient = Color3.fromRGB(200, 200, 255)
+    end
+})
+
+Tabs.Movement:CreateButton({
+    Name = "Super Jump",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        local Character = Player.Character or Player.CharacterAdded:Wait()
+        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+        if Humanoid then
+            Humanoid.JumpHeight = 100
+        end
+    end
+})
+
+Tabs.Movement:CreateButton({
+    Name = "Teleport",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        local Mouse = Player:GetMouse()
+        local Character = Player.Character or Player.CharacterAdded:Wait()
+        if Character then
+            Character.HumanoidRootPart.CFrame = CFrame.new(Mouse.Hit.p)
+        end
+    end
+})
+
+Tabs.Combat:CreateButton({
+    Name = "Instant Kill",
+    Callback = function()
+        for _, Target in ipairs(game.Players:GetPlayers()) do
+            if Target.Team ~= game.Players.LocalPlayer.Team and Target.Character then
+                local Humanoid = Target.Character:FindFirstChildOfClass("Humanoid")
+                if Humanoid then
+                    Humanoid.Health = 0
+                end
+            end
+        end
+    end
+})
+
+Tabs.Utility:CreateButton({
+    Name = "Auto Collect Items",
+    Callback = function()
+        print("Auto collect items activated.")
+    end
+})
+
+Tabs.Utility:CreateButton({
+    Name = "Auto Heal",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        local Character = Player.Character or Player.CharacterAdded:Wait()
+        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+        if Humanoid then
+            Humanoid.Health = Humanoid.MaxHealth
+        end
     end
 })
 
