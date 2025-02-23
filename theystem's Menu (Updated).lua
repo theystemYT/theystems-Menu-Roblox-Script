@@ -262,4 +262,23 @@ Tabs.Utility:CreateButton({
     end
 })
 
+Tabs.Scripts = Window:CreateTab("Scripts (more scripts coming soon!)")
+
+Tabs.Scripts:CreateButton({
+    Name = "Infinite Yield",
+    Callback = function()
+        local success, InfiniteYieldScript = pcall(function()
+            return loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+        end)
+
+        if not success then
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "Error!",
+                Text = "The Infinite Yield script couldn't be executed successfully.",
+                Duration = 5
+            })
+        end
+    end
+})
+
 Window:SelectTab(Tabs.Universal)
