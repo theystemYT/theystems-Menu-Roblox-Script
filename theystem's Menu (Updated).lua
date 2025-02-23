@@ -1,4 +1,4 @@
--- DO NOT STEAL THIS CODE WITHOUT GIVEN PERMISSION BY THE CREATOR
+-- DO NOT STEAL THIS CODE WITHOUT GIVEN PERMISSION BY THE CREATOR OF THIS CODE
 
 local success, Rayfield = pcall(function()
     return loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
