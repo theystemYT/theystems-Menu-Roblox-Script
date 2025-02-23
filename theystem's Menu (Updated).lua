@@ -5,7 +5,7 @@ end)
 if not success then
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Error!",
-        Text = "The script couldn't be executed successfully. Check your executor.",
+        Text = "The script couldn't be executed successfully. Check your executor to see if it is able to run Rayfield.",
         Duration = 5
     })
     return
@@ -13,7 +13,7 @@ end
 
 local Window = Rayfield:CreateWindow({
     Name = "theystem's Menu (more mods coming soon!)",
-    LoadingTitle = "Menu has been loaded successfully.",
+    LoadingTitle = "Menu has been loaded successfully!",
     LoadingSubtitle = "Menu made by @theystem.",
     Theme = "AmberGlow",
     ConfigurationSaving = {Enabled = true, FolderName = "RayfieldScripts", FileName = "theystem_menu"},
@@ -44,7 +44,7 @@ local function createButton(tab, name, callback)
             if not success then
                 game:GetService("StarterGui"):SetCore("SendNotification", {
                     Title = "Error!",
-                    Text = "Failed to execute " .. name,
+                    Text = "Unable to execute!" .. name,
                     Duration = 5
                 })
             end
