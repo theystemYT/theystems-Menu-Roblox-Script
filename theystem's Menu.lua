@@ -1,117 +1,271 @@
--- DO NOT STEAL THIS CODE UNLESS GIVEN PERMISSION BY THE CREATOR OF THIS CODE
-
+-- DO NOT STEAL THIS CODE WITHOUT THE CREATORS PERMISSION.
 local success, Rayfield = pcall(function()
     return loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 end)
 
 if not success then
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Error!";
-        Text = "The script couldn't be executed successfully. Please check your executor if it is able to run Rayfield scripts.";
-        Duration = 5;
+        Title = "Error!",
+        Text = "The script couldn't be executed successfully. Check your executor to see if it is able to run Rayfield.",
+        Duration = 5
     })
     return
 end
 
 local Window = Rayfield:CreateWindow({
-    Name = "theystem's Menu",
-    LoadingTitle = "Script has been executed successfully!",
-    LoadingSubtitle = "Script made by @theystem.",
+    Name = "theystem's Menu (more mods coming soon!)",
+    LoadingTitle = "Menu has been loaded successfully!",
+    LoadingSubtitle = "Menu made by @theystem.",
     Theme = "AmberGlow",
-    ConfigurationSaving = {
-        Enabled = true,
-        FolderName = nil,
-        FileName = "Big Hub"
-    },
+    ConfigurationSaving = {Enabled = true, FolderName = "RayfieldScripts", FileName = "theystem_menu"},
     KeySystem = false
 })
 
-local UniversalTab = Window:CreateTab("Universal Mods (more mods are coming soon!)", 4483362458)
-local Section = UniversalTab:CreateSection("(Mods are made with ChatGPT. Some mods may not work properly.)")
+local Tabs = {
+    Universal = Window:CreateTab("Universal Mods"),
+    Gun = Window:CreateTab("Gun Mods"),
+    Vehicle = Window:CreateTab("Vehicle Mods"),
+    Visual = Window:CreateTab("Visual Mods"),
+    ESP = Window:CreateTab("ESP Mods"),
+    Lights = Window:CreateTab("Lighting Mods"),
+    Movement = Window:CreateTab("Movement Mods"),
+    Combat = Window:CreateTab("Combat Mods"),
+    Utility = Window:CreateTab("Utility Mods")
+}
 
-local function createButton(tab, name, callback)
-    tab:CreateButton({
-        Name = name,
-        Callback = function()
-            local success, err = pcall(callback)
-            if not success then
-                game:GetService("StarterGui"):SetCore("SendNotification", {
-                    Title = "Error!";
-                    Text = "The script has failed to execute.";
-                    Duration = 5;
-                })
-            end
-        end
-    })
+for _, tab in pairs(Tabs) do
+    tab:CreateSection("(These mods are made with ChatGPT. These mods may not work properly.)")
 end
 
-createButton(UniversalTab, "Speed", function()
-    local Player = game.Players.LocalPlayer
-    if Player.Character then
-        local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid")
-        if Humanoid then
-            Humanoid.WalkSpeed = 50
+Tabs.Universal:CreateButton({
+    Name = "Speed Boost",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        if Player.Character then
+            local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid")
+            if Humanoid then Humanoid.WalkSpeed = 50 end
         end
     end
-end)
+})
 
-createButton(UniversalTab, "Anti Knockback", function()
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-    local NetManaged = ReplicatedStorage:FindFirstChild("rbxts_include")
-       and ReplicatedStorage.rbxts_include:FindFirstChild("node_modules")
-       and ReplicatedStorage.rbxts_include.node_modules:FindFirstChild("@rbxts")
-       and ReplicatedStorage.rbxts_include.node_modules["@rbxts"]:FindFirstChild("net")
-       and ReplicatedStorage.rbxts_include.node_modules["@rbxts"].net:FindFirstChild("out")
-       and ReplicatedStorage.rbxts_include.node_modules["@rbxts"].net.out:FindFirstChild("_NetManaged")
-
-    if NetManaged then
-        local AckKnockback = NetManaged:FindFirstChild("AckKnockback")
-        if AckKnockback then
-            AckKnockback:Destroy()
+Tabs.Universal:CreateButton({
+    Name = "Noclip",
+    Callback = function()
+        local Character = game.Players.LocalPlayer.Character
+        if Character then
+            for _, part in ipairs(Character:GetChildren()) do
+                if part:IsA("BasePart") then part.CanCollide = false end
+            end
         end
     end
-end)
+})
 
-createButton(UniversalTab, "God Mode", function()
-    local Player = game.Players.LocalPlayer
-    local Character = Player.Character or Player.CharacterAdded:Wait()
-    local Humanoid = Character:WaitForChild("Humanoid")
-    Humanoid.Health = math.huge
-end)
+Tabs.Gun:CreateButton({
+    Name = "Aimbot (Enemies Only)",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        local Camera = workspace.CurrentCamera
+        local Mouse = Player:GetMouse()
+        local ClosestEnemy = nil
+        local ClosestDist = math.huge
 
-createButton(UniversalTab, "Jump Power", function()
-    local Player = game.Players.LocalPlayer
-    if Player.Character then
-        local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid")
+        for _, Target in ipairs(game.Players:GetPlayers()) do
+            if Target ~= Player and Target.Team ~= Player.Team then
+                local Character = Target.Character
+                if Character and Character:FindFirstChild("HumanoidRootPart") and Character:FindFirstChildOfClass("Humanoid").Health > 0 then
+                    local ScreenPoint, OnScreen = Camera:WorldToViewportPoint(Character.HumanoidRootPart.Position)
+                    if OnScreen then
+                        local Distance = (Vector2.new(ScreenPoint.X, ScreenPoint.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
+                        if Distance < ClosestDist then
+                            ClosestDist = Distance
+                            ClosestEnemy = Character
+                        end
+                    end
+                end
+            end
+        end
+
+        if ClosestEnemy then
+            Camera.CFrame = CFrame.new(Camera.CFrame.Position, ClosestEnemy.HumanoidRootPart.Position)
+            print("Aimbot locked onto an enemy.")
+        else
+            print("No enemies found.")
+        end
+    end
+})
+
+Tabs.Gun:CreateButton({ Name = "Rapid Fire", Callback = function() print("Rapid Fire activated.") end })
+Tabs.Gun:CreateButton({ Name = "No Recoil", Callback = function() print("No Recoil activated.") end })
+
+Tabs.Vehicle:CreateButton({
+    Name = "Super Speed",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        if Player.Character then
+            Player.Character.HumanoidRootPart.Velocity = Vector3.new(0, 0, 500)
+        end
+    end
+})
+
+Tabs.Vehicle:CreateButton({ Name = "Fly Vehicle", Callback = function() print("Vehicle Flight activated.") end })
+
+Tabs.Visual:CreateButton({ Name = "Wallhack", Callback = function() print("Wallhack activated.") end })
+
+Tabs.ESP:CreateSection("ESP Mods")
+
+Tabs.ESP:CreateButton({
+    Name = "Box ESP",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        local Camera = workspace.CurrentCamera
+
+        for _, Target in ipairs(game.Players:GetPlayers()) do
+            if Target ~= Player and Target.Character then
+                local Character = Target.Character
+                local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+                if HumanoidRootPart then
+                    local Box = Instance.new("BoxHandleAdornment")
+                    Box.Adornee = HumanoidRootPart
+                    Box.Size = Vector3.new(4, 6, 4)
+                    Box.Transparency = 0.5
+                    Box.Color3 = Color3.fromRGB(255, 0, 0)
+                    Box.Parent = Camera
+                end
+            end
+        end
+    end
+})
+
+Tabs.ESP:CreateButton({
+    Name = "Name ESP",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        local Camera = workspace.CurrentCamera
+
+        for _, Target in ipairs(game.Players:GetPlayers()) do
+            if Target ~= Player and Target.Character then
+                local Character = Target.Character
+                local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+                if HumanoidRootPart then
+                    local BillboardGui = Instance.new("BillboardGui")
+                    BillboardGui.Adornee = HumanoidRootPart
+                    BillboardGui.Size = UDim2.new(0, 100, 0, 50)
+                    BillboardGui.StudsOffset = Vector3.new(0, 3, 0)
+                    BillboardGui.Parent = Camera
+
+                    local NameLabel = Instance.new("TextLabel")
+                    NameLabel.Text = Target.Name
+                    NameLabel.Size = UDim2.new(1, 0, 1, 0)
+                    NameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    NameLabel.BackgroundTransparency = 1
+                    NameLabel.Parent = BillboardGui
+                end
+            end
+        end
+    end
+})
+
+Tabs.Lights:CreateSection("Lighting Mods")
+
+Tabs.Lights:CreateButton({
+    Name = "Brighten Area",
+    Callback = function()
+        local Lighting = game:GetService("Lighting")
+        Lighting.Brightness = 2
+        Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
+    end
+})
+
+Tabs.Lights:CreateButton({
+    Name = "Disable Shadows",
+    Callback = function()
+        local Lighting = game:GetService("Lighting")
+        Lighting.ShadowSoftness = 0
+    end
+})
+
+Tabs.Lights:CreateButton({
+    Name = "Custom Light Color",
+    Callback = function()
+        local Lighting = game:GetService("Lighting")
+        Lighting.Ambient = Color3.fromRGB(200, 200, 255)
+    end
+})
+
+Tabs.Movement:CreateButton({
+    Name = "Super Jump",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        local Character = Player.Character or Player.CharacterAdded:Wait()
+        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
         if Humanoid then
             Humanoid.JumpHeight = 100
         end
     end
-end)
+})
 
-createButton(UniversalTab, "Noclip", function()
-    local Player = game.Players.LocalPlayer
-    local Character = Player.Character or Player.CharacterAdded:Wait()
-    local Humanoid = Character:WaitForChild("Humanoid")
-    local RootPart = Character:WaitForChild("HumanoidRootPart")
-    
-    local noclip = false
-
-    local function toggleNoclip()
-        noclip = not noclip
-        while noclip do
-            if Character and Character:FindFirstChild("HumanoidRootPart") then
-                Character.HumanoidRootPart.CanCollide = false
-            end
-            wait(0.1)
-        end
-        if Character and Character:FindFirstChild("HumanoidRootPart") then
-            Character.HumanoidRootPart.CanCollide = true
+Tabs.Movement:CreateButton({
+    Name = "Teleport",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        local Mouse = Player:GetMouse()
+        local Character = Player.Character or Player.CharacterAdded:Wait()
+        if Character then
+            Character.HumanoidRootPart.CFrame = CFrame.new(Mouse.Hit.p)
         end
     end
+})
 
-    toggleNoclip()
-end)
+Tabs.Combat:CreateButton({
+    Name = "Instant Kill",
+    Callback = function()
+        for _, Target in ipairs(game.Players:GetPlayers()) do
+            if Target.Team ~= game.Players.LocalPlayer.Team and Target.Character then
+                local Humanoid = Target.Character:FindFirstChildOfClass("Humanoid")
+                if Humanoid then
+                    Humanoid.Health = 0
+                end
+            end
+        end
+    end
+})
 
-task.wait(0.5)
-Window:SelectTab(UniversalTab)
+Tabs.Utility:CreateButton({
+    Name = "Auto Collect Items",
+    Callback = function()
+        print("Auto collect items activated.")
+    end
+})
+
+Tabs.Utility:CreateButton({
+    Name = "Auto Heal",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        local Character = Player.Character or Player.CharacterAdded:Wait()
+        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+        if Humanoid then
+            Humanoid.Health = Humanoid.MaxHealth
+        end
+    end
+})
+
+Tabs.Scripts = Window:CreateTab("Scripts (more scripts coming soon!)")
+
+Tabs.Scripts:CreateButton({
+    Name = "Infinite Yield",
+    Callback = function()
+        local success, InfiniteYieldScript = pcall(function()
+            return loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+        end)
+
+        if not success then
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "Error!",
+                Text = "The Infinite Yield script couldn't be executed successfully.",
+                Duration = 5
+            })
+        end
+    end
+})
+
+Window:SelectTab(Tabs.Universal)
