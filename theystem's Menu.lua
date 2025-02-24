@@ -1,4 +1,4 @@
--- DO NOT STEAL THIS CODE WITHOUT THE CREATORS PERMISSION.
+-- DO NOT STEAL THIS CODE WITHOUT PERMISSION BY THE CREATOR.
 local success, Rayfield = pcall(function()
     return loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 end)
@@ -37,13 +37,18 @@ for _, tab in pairs(Tabs) do
     tab:CreateSection("(These mods are made with ChatGPT. These mods may not work properly.)")
 end
 
+local noclipEnabled = false
+
 Tabs.Universal:CreateButton({
     Name = "Speed Boost",
     Callback = function()
         local Player = game.Players.LocalPlayer
         if Player.Character then
             local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid")
-            if Humanoid then Humanoid.WalkSpeed = 50 end
+            if Humanoid then 
+                Humanoid.WalkSpeed = 50  -- Adjusted speed boost to a manageable level
+                Humanoid.JumpHeight = 50  -- Adjust jump height to avoid flying off or falling too fast
+            end
         end
     end
 })
@@ -53,12 +58,46 @@ Tabs.Universal:CreateButton({
     Callback = function()
         local Character = game.Players.LocalPlayer.Character
         if Character then
-            for _, part in ipairs(Character:GetChildren()) do
-                if part:IsA("BasePart") then part.CanCollide = false end
+            noclipEnabled = not noclipEnabled
+            if noclipEnabled then
+                for _, part in ipairs(Character:GetChildren()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = false
+                    end
+                end
+                game:GetService("StarterGui"):SetCore("SendNotification", {
+                    Title = "Noclip Enabled",
+                    Text = "You can now pass through walls.",
+                    Duration = 5
+                })
+            else
+                for _, part in ipairs(Character:GetChildren()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = true
+                    end
+                end
+                game:GetService("StarterGui"):SetCore("SendNotification", {
+                    Title = "Noclip Disabled",
+                    Text = "You can no longer pass through walls.",
+                    Duration = 5
+                })
             end
         end
     end
 })
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    if noclipEnabled then
+        local Character = game.Players.LocalPlayer.Character
+        if Character then
+            for _, part in ipairs(Character:GetChildren()) do
+                if part:IsA("BasePart") then
+                    part.CanCollide = false
+                end
+            end
+        end
+    end
+end)
 
 Tabs.Gun:CreateButton({
     Name = "Aimbot (Enemies Only)",
