@@ -38,6 +38,7 @@ for _, tab in pairs(Tabs) do
 end
 
 local noclipEnabled = false
+local invincibilityEnabled = false
 
 Tabs.Universal:CreateButton({
     Name = "Speed Boost",
@@ -79,6 +80,36 @@ Tabs.Universal:CreateButton({
                 game:GetService("StarterGui"):SetCore("SendNotification", {
                     Title = "Noclip Disabled",
                     Text = "You can no longer pass through walls.",
+                    Duration = 5
+                })
+            end
+        end
+    end
+})
+
+Tabs.Universal:CreateButton({
+    Name = "Invincibility",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        local Character = Player.Character or Player.CharacterAdded:Wait()
+        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+        if Humanoid then
+            invincibilityEnabled = not invincibilityEnabled
+            if invincibilityEnabled then
+                Humanoid.HealthChanged:Connect(function()
+                    if Humanoid.Health < Humanoid.MaxHealth then
+                        Humanoid.Health = Humanoid.MaxHealth
+                    end
+                end)
+                game:GetService("StarterGui"):SetCore("SendNotification", {
+                    Title = "Invincibility Enabled",
+                    Text = "You are now invincible.",
+                    Duration = 5
+                })
+            else
+                game:GetService("StarterGui"):SetCore("SendNotification", {
+                    Title = "Invincibility Disabled",
+                    Text = "You are no longer invincible.",
                     Duration = 5
                 })
             end
