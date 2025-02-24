@@ -1,4 +1,4 @@
--- DO NOT STEAL THIS CODE UNLESS GIVEN PERMISSION BY THE CREATOR
+-- DO NOT STEAL THIS CODE WITHOUT THE CREATORS PERMISSION.
 local success, Rayfield = pcall(function()
     return loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 end)
@@ -44,19 +44,6 @@ Tabs.Universal:CreateButton({
         if Player.Character then
             local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid")
             if Humanoid then Humanoid.WalkSpeed = 50 end
-        end
-    end
-})
-
-Tabs.Universal:CreateButton({
-    Name = "God Mode",
-    Callback = function()
-        local Player = game.Players.LocalPlayer
-        local Character = Player.Character or Player.CharacterAdded:Wait()
-        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
-        if Humanoid then
-            Humanoid.MaxHealth = math.huge
-            Humanoid.Health = math.huge
         end
     end
 })
