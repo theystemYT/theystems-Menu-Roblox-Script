@@ -1,4 +1,5 @@
 -- DO NOT STEAL THIS CODE WITHOUT PERMISSION BY THE CREATOR.
+
 local success, Rayfield = pcall(function()
     return loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 end)
@@ -39,16 +40,33 @@ end
 
 local noclipEnabled = false
 local invincibilityEnabled = false
+local speedBoostEnabled = false
 
 Tabs.Universal:CreateButton({
-    Name = "Speed Boost",
+    Name = "Toggle Speed Boost",
     Callback = function()
         local Player = game.Players.LocalPlayer
         if Player.Character then
             local Humanoid = Player.Character:FindFirstChildOfClass("Humanoid")
-            if Humanoid then 
-                Humanoid.WalkSpeed = 50  -- Adjusted speed boost to a manageable level
-                Humanoid.JumpHeight = 50  -- Adjust jump height to avoid flying off or falling too fast
+            if Humanoid then
+                speedBoostEnabled = not speedBoostEnabled
+                if speedBoostEnabled then
+                    Humanoid.WalkSpeed = 50
+                    Humanoid.JumpHeight = 50
+                    game:GetService("StarterGui"):SetCore("SendNotification", {
+                        Title = "Speed Boost Enabled",
+                        Text = "Your speed boost is now active.",
+                        Duration = 5
+                    })
+                else
+                    Humanoid.WalkSpeed = 16  -- Reset to default speed
+                    Humanoid.JumpHeight = 7  -- Reset jump height to default
+                    game:GetService("StarterGui"):SetCore("SendNotification", {
+                        Title = "Speed Boost Disabled",
+                        Text = "Your speed boost is now inactive.",
+                        Duration = 5
+                    })
+                end
             end
         end
     end
