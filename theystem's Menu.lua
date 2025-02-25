@@ -147,8 +147,10 @@ Tabs.Universal:CreateButton({
                 for _, part in ipairs(Character:GetChildren()) do
                     if part:IsA("BasePart") then
                         part.LocalTransparencyModifier = 1
+                        part.CanCollide = false
                     end
                 end
+                Character:FindFirstChildOfClass("HumanoidRootPart").LocalTransparencyModifier = 1
                 game:GetService("StarterGui"):SetCore("SendNotification", {
                     Title = "Invisibility Enabled",
                     Text = "You are now invisible.",
@@ -158,8 +160,10 @@ Tabs.Universal:CreateButton({
                 for _, part in ipairs(Character:GetChildren()) do
                     if part:IsA("BasePart") then
                         part.LocalTransparencyModifier = 0
+                        part.CanCollide = true
                     end
                 end
+                Character:FindFirstChildOfClass("HumanoidRootPart").LocalTransparencyModifier = 0
                 game:GetService("StarterGui"):SetCore("SendNotification", {
                     Title = "Invisibility Disabled",
                     Text = "You are now visible.",
@@ -391,4 +395,4 @@ Tabs.Scripts:CreateButton({
     end
 })
 
-Window:SelectTab(Tabs.Universal)
+Window:SelectTab(Tabs.UniversalMods)
