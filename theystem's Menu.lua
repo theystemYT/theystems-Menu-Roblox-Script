@@ -19,14 +19,22 @@ local Window = Rayfield:CreateWindow({
     LoadingSubtitle = "Menu made by @theystem.",
     Theme = "AmberGlow",
     ConfigurationSaving = {Enabled = true, FolderName = "RayfieldScripts", FileName = "theystem_menu"},
-    KeySystem = false
-})
-
-Rayfield:Notify({
-    Title = "Thank you!",
-    Content = "Thank you for chooseing theystem's Menu.",
-    Duration = 3,
-    Image = 4483362458
+    KeySystem = true,
+    KeySettings = {
+        Title = "Key System",
+        Subtitle = "Please type in the key to access the menu.",
+        Note = "theystem's Menu is the key.",
+        Key = "theystem's Menu",
+        Callback = function(success)
+            if not success then
+                Rayfield:Notify({
+                    Title = "Access Denied",
+                    Content = "Incorrect key. Please try again.",
+                    Duration = 3
+                })
+            end
+        end
+    }
 })
 
 local Tabs = {
@@ -153,212 +161,4 @@ game:GetService("RunService").Heartbeat:Connect(function()
     end
 end)
 
-Tabs.Gun:CreateButton({
-    Name = "Aimbot (Enemies Only)",
-    Callback = function()
-        local Player = game.Players.LocalPlayer
-        local Camera = workspace.CurrentCamera
-        local Mouse = Player:GetMouse()
-        local ClosestEnemy = nil
-        local ClosestDist = math.huge
-
-        for _, Target in ipairs(game.Players:GetPlayers()) do
-            if Target ~= Player and Target.Team ~= Player.Team then
-                local Character = Target.Character
-                if Character and Character:FindFirstChild("HumanoidRootPart") and Character:FindFirstChildOfClass("Humanoid").Health > 0 then
-                    local ScreenPoint, OnScreen = Camera:WorldToViewportPoint(Character.HumanoidRootPart.Position)
-                    if OnScreen then
-                        local Distance = (Vector2.new(ScreenPoint.X, ScreenPoint.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
-                        if Distance < ClosestDist then
-                            ClosestDist = Distance
-                            ClosestEnemy = Character
-                        end
-                    end
-                end
-            end
-        end
-
-        if ClosestEnemy then
-            Camera.CFrame = CFrame.new(Camera.CFrame.Position, ClosestEnemy.HumanoidRootPart.Position)
-            print("Aimbot locked onto an enemy.")
-        else
-            print("No enemies found.")
-        end
-    end
-})
-
-Tabs.Gun:CreateButton({ Name = "Rapid Fire", Callback = function() print("Rapid Fire activated.") end })
-Tabs.Gun:CreateButton({ Name = "No Recoil", Callback = function() print("No Recoil activated.") end })
-
-Tabs.Vehicle:CreateButton({
-    Name = "Super Speed",
-    Callback = function()
-        local Player = game.Players.LocalPlayer
-        if Player.Character then
-            Player.Character.HumanoidRootPart.Velocity = Vector3.new(0, 0, 500)
-        end
-    end
-})
-
-Tabs.Vehicle:CreateButton({ Name = "Fly Vehicle", Callback = function() print("Vehicle Flight activated.") end })
-
-Tabs.Visual:CreateButton({ Name = "Wallhack", Callback = function() print("Wallhack activated.") end })
-
-Tabs.ESP:CreateSection("ESP Mods")
-
-Tabs.ESP:CreateButton({
-    Name = "Box ESP",
-    Callback = function()
-        local Player = game.Players.LocalPlayer
-        local Camera = workspace.CurrentCamera
-
-        for _, Target in ipairs(game.Players:GetPlayers()) do
-            if Target ~= Player and Target.Character then
-                local Character = Target.Character
-                local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
-                if HumanoidRootPart then
-                    local Box = Instance.new("BoxHandleAdornment")
-                    Box.Adornee = HumanoidRootPart
-                    Box.Size = Vector3.new(4, 6, 4)
-                    Box.Transparency = 0.5
-                    Box.Color3 = Color3.fromRGB(255, 0, 0)
-                    Box.Parent = Camera
-                end
-            end
-        end
-    end
-})
-
-Tabs.ESP:CreateButton({
-    Name = "Name ESP",
-    Callback = function()
-        local Player = game.Players.LocalPlayer
-        local Camera = workspace.CurrentCamera
-
-        for _, Target in ipairs(game.Players:GetPlayers()) do
-            if Target ~= Player and Target.Character then
-                local Character = Target.Character
-                local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
-                if HumanoidRootPart then
-                    local BillboardGui = Instance.new("BillboardGui")
-                    BillboardGui.Adornee = HumanoidRootPart
-                    BillboardGui.Size = UDim2.new(0, 100, 0, 50)
-                    BillboardGui.StudsOffset = Vector3.new(0, 3, 0)
-                    BillboardGui.Parent = Camera
-
-                    local NameLabel = Instance.new("TextLabel")
-                    NameLabel.Text = Target.Name
-                    NameLabel.Size = UDim2.new(1, 0, 1, 0)
-                    NameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-                    NameLabel.BackgroundTransparency = 1
-                    NameLabel.Parent = BillboardGui
-                end
-            end
-        end
-    end
-})
-
-Tabs.Lights:CreateSection("Lighting Mods")
-
-Tabs.Lights:CreateButton({
-    Name = "Brighten Area",
-    Callback = function()
-        local Lighting = game:GetService("Lighting")
-        Lighting.Brightness = 2
-        Lighting.OutdoorAmbient = Color3.fromRGB(255, 255, 255)
-    end
-})
-
-Tabs.Lights:CreateButton({
-    Name = "Disable Shadows",
-    Callback = function()
-        local Lighting = game:GetService("Lighting")
-        Lighting.ShadowSoftness = 0
-    end
-})
-
-Tabs.Lights:CreateButton({
-    Name = "Custom Light Color",
-    Callback = function()
-        local Lighting = game:GetService("Lighting")
-        Lighting.Ambient = Color3.fromRGB(200, 200, 255)
-    end
-})
-
-Tabs.Movement:CreateButton({
-    Name = "Super Jump",
-    Callback = function()
-        local Player = game.Players.LocalPlayer
-        local Character = Player.Character or Player.CharacterAdded:Wait()
-        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
-        if Humanoid then
-            Humanoid.JumpHeight = 100
-        end
-    end
-})
-
-Tabs.Movement:CreateButton({
-    Name = "Teleport",
-    Callback = function()
-        local Player = game.Players.LocalPlayer
-        local Mouse = Player:GetMouse()
-        local Character = Player.Character or Player.CharacterAdded:Wait()
-        if Character then
-            Character.HumanoidRootPart.CFrame = CFrame.new(Mouse.Hit.p)
-        end
-    end
-})
-
-Tabs.Combat:CreateButton({
-    Name = "Instant Kill",
-    Callback = function()
-        for _, Target in ipairs(game.Players:GetPlayers()) do
-            if Target.Team ~= game.Players.LocalPlayer.Team and Target.Character then
-                local Humanoid = Target.Character:FindFirstChildOfClass("Humanoid")
-                if Humanoid then
-                    Humanoid.Health = 0
-                end
-            end
-        end
-    end
-})
-
-Tabs.Utility:CreateButton({
-    Name = "Auto Collect Items",
-    Callback = function()
-        print("Auto collect items activated.")
-    end
-})
-
-Tabs.Utility:CreateButton({
-    Name = "Auto Heal",
-    Callback = function()
-        local Player = game.Players.LocalPlayer
-        local Character = Player.Character or Player.CharacterAdded:Wait()
-        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
-        if Humanoid then
-            Humanoid.Health = Humanoid.MaxHealth
-        end
-    end
-})
-
-Tabs.Scripts = Window:CreateTab("Scripts (more scripts coming soon!)")
-
-Tabs.Scripts:CreateButton({
-    Name = "Infinite Yield",
-    Callback = function()
-        local success, InfiniteYieldScript = pcall(function()
-            return loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-        end)
-
-        if not success then
-            game:GetService("StarterGui"):SetCore("SendNotification", {
-                Title = "Error!",
-                Text = "The Infinite Yield script couldn't be executed successfully.",
-                Duration = 5
-            })
-        end
-    end
-})
-
-Window:SelectTab(Tabs.UniversalMods)
+Window:SelectTab(Tabs.Universal)
