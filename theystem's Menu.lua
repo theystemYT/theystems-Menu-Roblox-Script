@@ -22,6 +22,13 @@ local Window = Rayfield:CreateWindow({
     KeySystem = false
 })
 
+Rayfield:Notify({
+    Title = "Thank you!",
+    Content = "Thank you for chooseing theystem's Menu.",
+    Duration = 3,
+    Image = 4483362458
+})
+
 local Tabs = {
     Universal = Window:CreateTab("Universal Mods"),
     Gun = Window:CreateTab("Gun Mods"),
@@ -34,9 +41,7 @@ local Tabs = {
     Utility = Window:CreateTab("Utility Mods")
 }
 
-for _, tab in pairs(Tabs) do
-    tab:CreateSection("(These mods are made with ChatGPT. These mods may not work properly.)")
-end
+Tabs.Universal:CreateSection("(These mods are made with ChatGPT. These mods may not work properly.)")
 
 local noclipEnabled = false
 local invincibilityEnabled = false
@@ -356,4 +361,4 @@ Tabs.Scripts:CreateButton({
     end
 })
 
-Window:SelectTab(Tabs.Universal)
+Window:SelectTab(Tabs.UniversalMods)
