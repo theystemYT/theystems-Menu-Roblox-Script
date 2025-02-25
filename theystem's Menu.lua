@@ -41,6 +41,7 @@ end
 local noclipEnabled = false
 local invincibilityEnabled = false
 local speedBoostEnabled = false
+local invisibilityEnabled = false
 
 Tabs.Universal:CreateButton({
     Name = "Toggle Speed Boost",
@@ -59,8 +60,8 @@ Tabs.Universal:CreateButton({
                         Duration = 5
                     })
                 else
-                    Humanoid.WalkSpeed = 16  -- Reset to default speed
-                    Humanoid.JumpHeight = 7  -- Reset jump height to default
+                    Humanoid.WalkSpeed = 16
+                    Humanoid.JumpHeight = 7
                     game:GetService("StarterGui"):SetCore("SendNotification", {
                         Title = "Speed Boost Disabled",
                         Text = "Your speed boost is now inactive.",
@@ -128,6 +129,40 @@ Tabs.Universal:CreateButton({
                 game:GetService("StarterGui"):SetCore("SendNotification", {
                     Title = "Invincibility Disabled",
                     Text = "You are no longer invincible.",
+                    Duration = 5
+                })
+            end
+        end
+    end
+})
+
+Tabs.Universal:CreateButton({
+    Name = "Toggle Invisibility",
+    Callback = function()
+        local Player = game.Players.LocalPlayer
+        local Character = Player.Character or Player.CharacterAdded:Wait()
+        if Character then
+            invisibilityEnabled = not invisibilityEnabled
+            if invisibilityEnabled then
+                for _, part in ipairs(Character:GetChildren()) do
+                    if part:IsA("BasePart") then
+                        part.LocalTransparencyModifier = 1
+                    end
+                end
+                game:GetService("StarterGui"):SetCore("SendNotification", {
+                    Title = "Invisibility Enabled",
+                    Text = "You are now invisible.",
+                    Duration = 5
+                })
+            else
+                for _, part in ipairs(Character:GetChildren()) do
+                    if part:IsA("BasePart") then
+                        part.LocalTransparencyModifier = 0
+                    end
+                end
+                game:GetService("StarterGui"):SetCore("SendNotification", {
+                    Title = "Invisibility Disabled",
+                    Text = "You are now visible.",
                     Duration = 5
                 })
             end
