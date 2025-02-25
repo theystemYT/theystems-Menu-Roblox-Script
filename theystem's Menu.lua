@@ -24,7 +24,7 @@ local Window = Rayfield:CreateWindow({
 
 Rayfield:Notify({
     Title = "Thank you!",
-    Content = "Thank you for chooseing theystem's Menu.",
+    Content = "Thank you for choosing theystem's Menu.",
     Duration = 3,
     Image = 4483362458
 })
