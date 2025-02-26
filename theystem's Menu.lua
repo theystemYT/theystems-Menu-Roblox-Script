@@ -1,6 +1,6 @@
 -- DO NOT STEAL THIS CODE WITHOUT PERMISSION BY THE CREATOR.
 local success, Rayfield = pcall(function()
-    return loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+    return loadstring(game:HttpGet('https://raw.githubusercontent.com/SiriusSoftwareLtd/Rayfield/main/source.lua'))()
 end)
 
 if not success then
@@ -25,7 +25,7 @@ Rayfield:Notify({
     Title = "Thank you!",
     Content = "Thank you for choosing theystem's Menu.",
     Duration = 3,
-    Image = 4370033185
+    Image = "4370033185"
 })
 
 local Tabs = {
@@ -57,18 +57,20 @@ Tabs.Universal:CreateButton({
                 if speedBoostEnabled then
                     Humanoid.WalkSpeed = 50
                     Humanoid.JumpHeight = 50
-                    game:GetService("StarterGui"):SetCore("SendNotification", {
+                    Rayfield:Notify({
                         Title = "Speed Boost Enabled",
-                        Text = "Your speed boost is now active.",
-                        Duration = 5
+                        Content = "Your speed boost is now active.",
+                        Duration = 3,
+                        Image = "check"
                     })
                 else
                     Humanoid.WalkSpeed = 16
                     Humanoid.JumpHeight = 7
-                    game:GetService("StarterGui"):SetCore("SendNotification", {
+                    Rayfield:Notify({
                         Title = "Speed Boost Disabled",
-                        Text = "Your speed boost is now inactive.",
-                        Duration = 5
+                        Content = "Your speed boost is now inactive.",
+                        Duration = 3,
+                        Image = "x"
                     })
                 end
             end
@@ -88,10 +90,11 @@ Tabs.Universal:CreateButton({
                         part.CanCollide = false
                     end
                 end
-                game:GetService("StarterGui"):SetCore("SendNotification", {
+                Rayfield:Notify({
                     Title = "Noclip Enabled",
-                    Text = "You can now pass through walls.",
-                    Duration = 5
+                    Content = "You can now pass through walls.",
+                    Duration = 3,
+                    Image = "check"
                 })
             else
                 for _, part in ipairs(Character:GetChildren()) do
@@ -99,10 +102,11 @@ Tabs.Universal:CreateButton({
                         part.CanCollide = true
                     end
                 end
-                game:GetService("StarterGui"):SetCore("SendNotification", {
+                Rayfield:Notify({
                     Title = "Noclip Disabled",
-                    Text = "You can no longer pass through walls.",
-                    Duration = 5
+                    Content = "You can no longer pass through walls.",
+                    Duration = 3,
+                    Image = "x"
                 })
             end
         end
@@ -123,16 +127,18 @@ Tabs.Universal:CreateButton({
                         Humanoid.Health = Humanoid.MaxHealth
                     end
                 end)
-                game:GetService("StarterGui"):SetCore("SendNotification", {
+                Rayfield:Notify({
                     Title = "Invincibility Enabled",
-                    Text = "You are now invincible.",
-                    Duration = 5
+                    Content = "You are now invincible.",
+                    Duration = 3,
+                    Image = "check"
                 })
             else
-                game:GetService("StarterGui"):SetCore("SendNotification", {
+                Rayfield:Notify({
                     Title = "Invincibility Disabled",
-                    Text = "You are no longer invincible.",
-                    Duration = 5
+                    Content = "You are no longer invincible.",
+                    Duration = 3,
+                    Image = "x"
                 })
             end
         end
