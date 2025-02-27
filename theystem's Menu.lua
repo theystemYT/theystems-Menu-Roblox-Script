@@ -178,4 +178,4 @@ Tabs.Scripts:CreateButton({
     end
 })
 
-Window:SelectTab(Tabs.UniversalMods)
+Window:SelectTab(Tabs.Universal)
