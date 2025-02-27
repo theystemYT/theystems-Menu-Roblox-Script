@@ -21,13 +21,6 @@ local Window = Rayfield:CreateWindow({
     KeySystem = false
 })
 
-Rayfield:Notify({
-    Title = "Thank you!",
-    Content = "Thank you for choosing theystem's Menu.",
-    Duration = 3,
-    Image = "4370033185"
-})
-
 local Tabs = {
     Universal = Window:CreateTab("Universal Mods"),
     Gun = Window:CreateTab("Gun Mods"),
@@ -178,4 +171,4 @@ Tabs.Scripts:CreateButton({
     end
 })
 
-Window:SelectTab(Tabs.Universal)
+Window:SelectTab(Tabs.UniversalMods)
