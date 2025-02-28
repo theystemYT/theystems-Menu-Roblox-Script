@@ -40,7 +40,6 @@ Tabs.Universal:CreateSection("(These mods are made with ChatGPT. These mods may 
 local toggles = {
     SpeedBoost = false,
     Noclip = false,
-    Invincibility = false,
     FreezeCamera = false
 }
 
@@ -105,32 +104,6 @@ game:GetService("RunService").Heartbeat:Connect(function()
         end
     end
 end)
-
-Tabs.Universal:CreateToggle({
-    Name = "Invincibility",
-    CurrentValue = toggles.Invincibility,
-    Callback = function(value)
-        toggles.Invincibility = value
-        local Player = game.Players.LocalPlayer
-        local Character = Player.Character or Player.CharacterAdded:Wait()
-        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
-        if Humanoid then
-            if value then
-                Humanoid.HealthChanged:Connect(function()
-                    if Humanoid.Health < Humanoid.MaxHealth then
-                        Humanoid.Health = Humanoid.MaxHealth
-                    end
-                end)
-            end
-            Rayfield:Notify({
-                Title = "Invincibility " .. (value and "Enabled" or "Disabled"),
-                Content = "You are " .. (value and "now invincible." or "no longer invincible."),
-                Duration = 3,
-                Image = value and "check" or "x"
-            })
-        end
-    end
-})
 
 Tabs.Gun:CreateButton({ Name = "Aimbot (Enemies Only)", Callback = function() print("Aimbot activated.") end })
 Tabs.Gun:CreateButton({ Name = "Rapid Fire", Callback = function() print("Rapid Fire activated.") end })
