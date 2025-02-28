@@ -31,7 +31,8 @@ local Tabs = {
     Movement = Window:CreateTab("Movement Mods"),
     Combat = Window:CreateTab("Combat Mods"),
     Utility = Window:CreateTab("Utility Mods"),
-    Scripts = Window:CreateTab("Scripts (more scripts coming soon!)")
+    Scripts = Window:CreateTab("Scripts (more scripts coming soon!)"),
+    Cameras = Window:CreateTab("Cameras")
 }
 
 Tabs.Universal:CreateSection("(These mods are made with ChatGPT. These mods may not work properly.)")
@@ -39,7 +40,8 @@ Tabs.Universal:CreateSection("(These mods are made with ChatGPT. These mods may 
 local toggles = {
     SpeedBoost = false,
     Noclip = false,
-    Invincibility = false
+    Invincibility = false,
+    FreezeCamera = false
 }
 
 Tabs.Universal:CreateToggle({
@@ -171,4 +173,27 @@ Tabs.Scripts:CreateButton({
     end
 })
 
-Window:SelectTab(Tabs.UniversalMods)
+Tabs.Cameras:CreateToggle({
+    Name = "Freeze Camera",
+    CurrentValue = toggles.FreezeCamera,
+    Callback = function(value)
+        toggles.FreezeCamera = value
+        if value then
+            local camera = game.Workspace.CurrentCamera
+            local frozenCFrame = camera.CFrame
+            game:GetService("RunService").RenderStepped:Connect(function()
+                if toggles.FreezeCamera then
+                    camera.CFrame = frozenCFrame
+                end
+            end)
+        end
+        Rayfield:Notify({
+            Title = "Freeze Camera " .. (value and "Enabled" or "Disabled"),
+            Content = "Your camera is now " .. (value and "frozen." or "unfrozen."),
+            Duration = 3,
+            Image = value and "check" or "x"
+        })
+    end
+})
+
+Window:SelectTab(Tabs.Universal)
