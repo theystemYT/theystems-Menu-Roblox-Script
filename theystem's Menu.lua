@@ -18,7 +18,16 @@ local Window = Rayfield:CreateWindow({
     LoadingSubtitle = "Menu made by @theystem.",
     Theme = "AmberGlow",
     ConfigurationSaving = {Enabled = true, FolderName = "theystem's Menu Configuration Saving", FileName = "theystem's Menu"},
-    KeySystem = false
+    KeySystem = true,
+    KeySettings = {
+        Title = "Key System",
+        Subtitle = "",
+        Note = "The key is 'theystem's Menu'.",
+        FileName = "theystem's Menu Key",
+        SaveKey = true,
+        GrabKeyFromSite = false,
+        Key = {"theystem's Menu"}
+    }
 })
 
 local Tabs = {
@@ -160,13 +169,10 @@ Tabs.Cameras:CreateToggle({
                     camera.CFrame = frozenCFrame
                 end
             end)
-            -- Set frozenCFrame again when toggle is re-enabled to update the position
             frozenCFrame = camera.CFrame
         else
-            -- You can stop freezing the camera by setting toggles.FreezeCamera to false
         end
 
-        -- Make the player visible while freezing the camera
         if value then
             local character = Player.Character
             if character then
@@ -176,7 +182,6 @@ Tabs.Cameras:CreateToggle({
                 end
             end
         else
-            -- Reset the camera offset to allow visibility of the player again
             local character = Player.Character
             if character then
                 local humanoid = character:FindFirstChildOfClass("Humanoid")
