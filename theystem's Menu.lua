@@ -17,7 +17,7 @@ local Window = Rayfield:CreateWindow({
     LoadingTitle = "Menu has been loaded successfully!",
     LoadingSubtitle = "Menu made by @theystem.",
     Theme = "AmberGlow",
-    ConfigurationSaving = {Enabled = true, FolderName = "RayfieldScripts", FileName = "theystem_menu"},
+    ConfigurationSaving = {Enabled = true, FolderName = "theystem's Menu Configuration Saving", FileName = "theystem's Menu"},
     KeySystem = false
 })
 
@@ -151,15 +151,41 @@ Tabs.Cameras:CreateToggle({
     CurrentValue = toggles.FreezeCamera,
     Callback = function(value)
         toggles.FreezeCamera = value
+        local camera = game.Workspace.CurrentCamera
+        local Player = game.Players.LocalPlayer
         if value then
-            local camera = game.Workspace.CurrentCamera
             local frozenCFrame = camera.CFrame
             game:GetService("RunService").RenderStepped:Connect(function()
                 if toggles.FreezeCamera then
                     camera.CFrame = frozenCFrame
                 end
             end)
+            -- Set frozenCFrame again when toggle is re-enabled to update the position
+            frozenCFrame = camera.CFrame
+        else
+            -- You can stop freezing the camera by setting toggles.FreezeCamera to false
         end
+
+        -- Make the player visible while freezing the camera
+        if value then
+            local character = Player.Character
+            if character then
+                local humanoid = character:FindFirstChildOfClass("Humanoid")
+                if humanoid then
+                    humanoid.CameraOffset = Vector3.new(0, 0, 0)
+                end
+            end
+        else
+            -- Reset the camera offset to allow visibility of the player again
+            local character = Player.Character
+            if character then
+                local humanoid = character:FindFirstChildOfClass("Humanoid")
+                if humanoid then
+                    humanoid.CameraOffset = Vector3.new(0, 0, 0)
+                end
+            end
+        end
+        
         Rayfield:Notify({
             Title = "Freeze Camera " .. (value and "Enabled" or "Disabled"),
             Content = "Your camera is now " .. (value and "frozen." or "unfrozen."),
