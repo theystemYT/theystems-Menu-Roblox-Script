@@ -17,17 +17,7 @@ local Window = Rayfield:CreateWindow({
     LoadingTitle = "Menu has been loaded successfully!",
     LoadingSubtitle = "Menu made by @theystem.",
     Theme = "AmberGlow",
-    ConfigurationSaving = {Enabled = true, FolderName = "theystem's Menu Configuration Saving", FileName = "theystem's Menu"},
-    KeySystem = true,
-    KeySettings = {
-        Title = "Key System",
-        Subtitle = "",
-        Note = "The key is 'theystem's Menu'.",
-        FileName = "theystem's Menu Key",
-        SaveKey = true,
-        GrabKeyFromSite = false,
-        Key = {"theystem's Menu"}
-    }
+    ConfigurationSaving = {Enabled = true, FolderName = "theystem's Menu Configuration Saving", FileName = "theystem's Menu"}
 })
 
 local Tabs = {
@@ -156,7 +146,7 @@ Tabs.Scripts:CreateButton({
 })
 
 Tabs.Cameras:CreateToggle({
-    Name = "Freeze Camera",
+    Name = "Freeze Camera (a little bit broken)",
     CurrentValue = toggles.FreezeCamera,
     Callback = function(value)
         toggles.FreezeCamera = value
