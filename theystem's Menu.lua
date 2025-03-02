@@ -14,12 +14,14 @@ end
 
 local Window = Rayfield:CreateWindow({
     Name = "theystem's Menu (more mods coming soon!)",
+    Icon = app-window
     LoadingTitle = "Menu has been loaded successfully!",
     LoadingSubtitle = "Menu made by @theystem.",
     Theme = "AmberGlow",
     ConfigurationSaving = {Enabled = true, FolderName = "theystem's Menu Configuration Saving", FileName = "theystem's Menu"}
 })
-
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false,
 local Tabs = {
     Universal = Window:CreateTab("Universal Mods"),
     Gun = Window:CreateTab("Gun Mods"),
