@@ -14,7 +14,7 @@ end
 
 local Window = Rayfield:CreateWindow({
     Name = "theystem's Menu (more mods coming soon!)",
-    Icon: app-window
+    Icon: "app-window"
     LoadingTitle = "Menu has been loaded successfully!",
     LoadingSubtitle = "Menu made by @theystem.",
     Theme = "AmberGlow",
