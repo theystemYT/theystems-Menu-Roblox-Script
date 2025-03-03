@@ -14,7 +14,7 @@ end
 
 local Window = Rayfield:CreateWindow({
     Name = "theystem's Menu (more mods coming soon!)",
-    Icon: "app-window"
+    Icon = "app-window",
     LoadingTitle = "Menu has been loaded successfully!",
     LoadingSubtitle = "Menu made by @theystem.",
     Theme = "AmberGlow",
@@ -22,17 +22,17 @@ local Window = Rayfield:CreateWindow({
 })
 
 local Tabs = {
-    Universal = Window:CreateTab("Universal Mods"),
-    Gun = Window:CreateTab("Gun Mods"),
-    Vehicle = Window:CreateTab("Vehicle Mods"),
-    Visual = Window:CreateTab("Visual Mods"),
-    ESP = Window:CreateTab("ESP Mods"),
-    Lights = Window:CreateTab("Lighting Mods"),
-    Movement = Window:CreateTab("Movement Mods"),
-    Combat = Window:CreateTab("Combat Mods"),
-    Utility = Window:CreateTab("Utility Mods"),
-    Scripts = Window:CreateTab("Scripts (more scripts coming soon!)"),
-    Cameras = Window:CreateTab("Cameras")
+    Universal = Window:CreateTab("Universal Mods", "globe"),
+    Gun = Window:CreateTab("Gun Mods", "crosshair"),
+    Vehicle = Window:CreateTab("Vehicle Mods", "car"),
+    Visual = Window:CreateTab("Visual Mods", "eye"),
+    ESP = Window:CreateTab("ESP Mods", "search"),
+    Lights = Window:CreateTab("Lighting Mods", "sun"),
+    Movement = Window:CreateTab("Movement Mods", "move"),
+    Combat = Window:CreateTab("Combat Mods", "sword"),
+    Utility = Window:CreateTab("Utility Mods", "wrench"),
+    Scripts = Window:CreateTab("Scripts (more scripts coming soon!)", "terminal"),
+    Cameras = Window:CreateTab("Cameras", "camera")
 }
 
 Tabs.Universal:CreateSection("(These mods are made with ChatGPT. These mods may not work properly.)")
