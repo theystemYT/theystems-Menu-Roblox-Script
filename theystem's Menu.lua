@@ -20,8 +20,7 @@ local Window = Rayfield:CreateWindow({
     Theme = "AmberGlow",
     ConfigurationSaving = {Enabled = true, FolderName = "theystem's Menu Configuration Saving", FileName = "theystem's Menu"}
 })
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false,
+
 local Tabs = {
     Universal = Window:CreateTab("Universal Mods"),
     Gun = Window:CreateTab("Gun Mods"),
